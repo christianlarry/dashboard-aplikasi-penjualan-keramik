@@ -21,8 +21,8 @@ import { HOME_NAV_ITEMS, MAIN_NAV_ITEMS, SECONDARY_NAV_ITEMS } from "@/constants
 // Data Sementara
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
+    name: "christianlarry",
+    role: "admin",
     avatar: "/avatars/shadcn.jpg",
   }
 }

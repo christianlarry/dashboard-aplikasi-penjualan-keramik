@@ -23,41 +23,37 @@ export const HOME_NAV_ITEMS: Items[] = [
 
 export const MAIN_NAV_ITEMS: Items[] = [
   {
-    title: "Products",
+    title: "Produk",
     url: "#",
     icon: LucidePackage,
     items: [
       {
-        title: "History",
+        title: "Semua Item",
         url: "#",
       },
       {
-        title: "Starred",
+        title: "Best Seller",
         url: "#",
       },
       {
-        title: "Settings",
+        title: "New Arrivals",
         url: "#",
       },
+      {
+        title: "Diskon",
+        url: "#",
+      }
     ],
   },
   {
-    title: "Users",
+    title: "Pengguna",
     url: "#",
     icon: LucideUser,
     items: [
       {
         title: "Genesis",
         url: "#",
-      },
-      {
-        title: "Explorer",
-        url: "#",
-      },
-      {
-        title: "Quantum",
-        url: "#",
-      },
+      }
     ],
   },
 ]
