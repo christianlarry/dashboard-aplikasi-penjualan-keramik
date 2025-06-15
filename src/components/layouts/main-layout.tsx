@@ -1,3 +1,4 @@
+import React from "react"
 import { AppSidebar } from "@/components/app-sidebar"
 import {
   Breadcrumb,
@@ -13,10 +14,57 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { Outlet, useLocation } from "react-router"
 
-import { Outlet } from "react-router"
+interface BreadcrumbItem {
+  label: string
+  href?: string
+}
+
+const breadcrumbMap: Record<string, BreadcrumbItem[]> = {
+  "/": [{ label: "Dashboard" }],
+  "/products": [{ label: "Produk" }],
+  "/products/all": [
+    { label: "Produk", href: "/products" },
+    { label: "Semua Item" },
+  ],
+  "/products/best-seller": [
+    { label: "Produk", href: "/products" },
+    { label: "Best Seller" },
+  ],
+  "/products/new-arrivals": [
+    { label: "Produk", href: "/products" },
+    { label: "New Arrivals" },
+  ],
+  "/products/discount": [
+    { label: "Produk", href: "/products" },
+    { label: "Diskon" },
+  ],
+  "/users": [{ label: "Pengguna" }],
+  "/users/list": [
+    { label: "Pengguna", href: "/users" },
+    { label: "Daftar Pengguna" },
+  ],
+  "/users/add": [
+    { label: "Pengguna", href: "/users" },
+    { label: "Tambah Pengguna" },
+  ],
+  "/users/roles": [
+    { label: "Pengguna", href: "/users" },
+    { label: "Role & Permissions" },
+  ],
+  "/users/settings": [
+    { label: "Pengguna", href: "/users" },
+    { label: "Pengaturan User" },
+  ],
+  "/support": [{ label: "Support" }],
+  "/feedback": [{ label: "Feedback" }],
+}
 
 const MainLayout = () => {
+  const location = useLocation()
+  const items = breadcrumbMap[location.pathname] || []
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -30,20 +78,22 @@ const MainLayout = () => {
             />
             <Breadcrumb>
               <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
+                {items.map((item, idx) => (
+                  <React.Fragment key={idx}>
+                    <BreadcrumbItem>
+                      {item.href ? (
+                        <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
+                      ) : (
+                        <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                      )}
+                    </BreadcrumbItem>
+                    {idx < items.length - 1 && <BreadcrumbSeparator />}
+                  </React.Fragment>
+                ))}
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </header>
-        {/* Outlet untuk konten halaman */}
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <Outlet />
         </div>

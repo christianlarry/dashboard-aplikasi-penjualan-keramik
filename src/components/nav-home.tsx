@@ -1,3 +1,4 @@
+import { Link } from "react-router"
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar"
 import type { NavItem } from "@/constants/navItems"
 
@@ -13,10 +14,10 @@ const NavHome = ({items}:Props)=>{
         {items.map((item) => (
           <SidebarMenuItem>
             <SidebarMenuButton asChild tooltip={item.title}>
-              <a href={item.url}>
+              <Link to={item.url}>
                 <item.icon />
                 <span>{item.title}</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}

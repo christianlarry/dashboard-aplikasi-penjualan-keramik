@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router"
+import { createBrowserRouter, redirect, RouterProvider } from "react-router"
 
 // Import Layout
 import MainLayout from "@/components/layouts/main-layout"
@@ -25,7 +25,12 @@ const router = createBrowserRouter([
         path: "/",
         element: <DashboardPage />
       },
+
       // Products Routes
+      {
+        path: "products",
+        loader: () => redirect("/products/all")
+      },
       {
         path: "products/all",
         element: <AllProductsPage />
@@ -43,6 +48,10 @@ const router = createBrowserRouter([
         element: <DiscountPage />
       },
       // Users Routes
+      {
+        path: "users",
+        loader: () => redirect("/users/list")
+      },
       {
         path: "users/list",
         element: <UserListPage />
