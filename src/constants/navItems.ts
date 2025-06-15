@@ -1,72 +1,79 @@
 import { LifeBuoy, LucidePackage, LucideUser, Send } from "lucide-react"
-import type { IconType } from "react-icons/lib"
 import { TbDashboard } from "react-icons/tb"
 
-export interface Items {
+export interface NavItem {
   title: string
   url: string
-  icon: IconType
-  isActive?: boolean
-  items?: {
-    title: string
-    url: string
-  }[]
-}[]
+  icon?: any
+  items?: NavItem[]
+}
 
-export const HOME_NAV_ITEMS: Items[] = [
+export const HOME_NAV_ITEMS: NavItem[] = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/",
     icon: TbDashboard
   }
 ]
 
-export const MAIN_NAV_ITEMS: Items[] = [
+export const MAIN_NAV_ITEMS: NavItem[] = [
   {
     title: "Produk",
-    url: "#",
+    url: "/products",
     icon: LucidePackage,
     items: [
       {
         title: "Semua Item",
-        url: "#",
+        url: "/products/all",
       },
       {
         title: "Best Seller",
-        url: "#",
+        url: "/products/best-seller",
       },
       {
         title: "New Arrivals",
-        url: "#",
+        url: "/products/new-arrivals",
       },
       {
         title: "Diskon",
-        url: "#",
+        url: "/products/discount",
       }
     ],
   },
   {
     title: "Pengguna",
-    url: "#",
+    url: "/users",
     icon: LucideUser,
     items: [
       {
-        title: "Genesis",
-        url: "#",
+        title: "Daftar Pengguna",
+        url: "/users/list",
+      },
+      {
+        title: "Tambah Pengguna",
+        url: "/users/add",
+      },
+      {
+        title: "Role & Permissions",
+        url: "/users/roles",
+      },
+      {
+        title: "Pengaturan User",
+        url: "/users/settings",
       }
     ],
   },
 ]
 
-export const SECONDARY_NAV_ITEMS: Items[] = [
-    {
-      title: "Support",
-      url: "#",
-      icon: LifeBuoy,
-    },
-    {
-      title: "Feedback",
-      url: "#",
-      icon: Send,
-    },
-  ]
+export const SECONDARY_NAV_ITEMS: NavItem[] = [
+  {
+    title: "Support",
+    url: "/support",
+    icon: LifeBuoy,
+  },
+  {
+    title: "Feedback",
+    url: "/feedback",
+    icon: Send,
+  },
+]

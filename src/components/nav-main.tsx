@@ -10,21 +10,12 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
-import type { IconType } from "react-icons/lib"
+import type { NavItem } from "@/constants/navItems"
 
 export function NavMain({
   items,
 }: {
-  items: {
-    title: string
-    url: string
-    icon: IconType
-    isActive?: boolean
-    items?: {
-      title: string
-      url: string
-    }[]
-  }[]
+  items: NavItem[]
 }) {
   return (
     <SidebarGroup>

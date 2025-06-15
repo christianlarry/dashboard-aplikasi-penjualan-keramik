@@ -1,17 +1,8 @@
-import type { IconType } from "react-icons/lib"
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar"
+import type { NavItem } from "@/constants/navItems"
 
 interface Props{
-  items: {
-    title: string
-    url: string
-    icon: IconType
-    isActive?: boolean
-    items?: {
-      title: string
-      url: string
-    }[]
-  }[]
+  items: NavItem[]
 }
 
 const NavHome = ({items}:Props)=>{
