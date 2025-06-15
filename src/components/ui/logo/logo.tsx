@@ -1,5 +1,5 @@
 // import logo
-import logoSrc from "../../../../assets/images/logo.png"
+import logoSrc from "@/assets/images/logo.png"
 
 const Logo = ()=>{
   return (
