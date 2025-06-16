@@ -12,7 +12,7 @@ const NavHome = ({items}:Props)=>{
       <SidebarGroupLabel>Home</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
-          <SidebarMenuItem>
+          <SidebarMenuItem key={item.url}>
             <SidebarMenuButton asChild tooltip={item.title}>
               <Link to={item.url}>
                 <item.icon />

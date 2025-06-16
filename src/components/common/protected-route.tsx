@@ -1,5 +1,6 @@
 import { useAuth } from "@/contexts/auth-context"
 import { Navigate, useLocation } from "react-router"
+import { Spinner } from "@/components/ui/spinner"
 
 interface ProtectedRouteProps {
   children: React.ReactNode
@@ -10,10 +11,9 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const location = useLocation()
 
   if (isLoading) {
-    // Anda bisa ganti dengan loading spinner atau skeleton
     return (
-      <div className="flex h-screen w-screen items-center justify-center">
-        <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-gray-900" />
+      <div className="flex h-screen w-screen items-center justify-center bg-background">
+        <Spinner>Loading...</Spinner>
       </div>
     )
   }

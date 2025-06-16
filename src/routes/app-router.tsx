@@ -1,4 +1,4 @@
-import { createBrowserRouter, redirect, RouterProvider } from "react-router"
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router"
 
 // Import Layout & Components
 import MainLayout from "@/components/layouts/main-layout"
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <DashboardPage /> },
       // Products Routes
-      { path: "products", loader: () => redirect("/products/all") },
+      { path: "products", element: <Navigate to="/products/all" replace /> },
       { path: "products/all", element: <AllProductsPage /> },
       { path: "products/best-seller", element: <BestSellerPage /> },
       { path: "products/new-arrivals", element: <NewArrivalsPage /> },

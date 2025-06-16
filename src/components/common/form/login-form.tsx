@@ -16,7 +16,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { loginSchema } from "@/validations/loginSchema"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { useAuth } from "@/contexts/auth-context"
-import { AxiosError } from "axios"
 
 export function LoginForm({
   className,

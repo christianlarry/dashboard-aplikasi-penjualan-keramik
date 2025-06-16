@@ -38,9 +38,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = useCallback(async (credentials: LoginCredentials) => {
     setIsLoading(true)
     // API hanya mengembalikan token
-    const { data: { token } } = await api.post<{ token: string }>('/user/login', credentials)
+    const { data: { data: { token } } } = await api.post<{ data: {token: string} }>('/user/login', credentials)
     
     // Get user data from JWT payload
+
     const userData = getUserFromToken(token)
     if (!userData) {
       throw new Error('Invalid token received from server')
