@@ -16,11 +16,18 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { loginSchema } from "@/validations/loginSchema"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { useAuth } from "@/contexts/auth-context"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { AlertCircleIcon } from "lucide-react"
+import { useState } from "react"
+import { AxiosError } from "axios"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+
+  // Login error state
+  const [loginError, setLoginError] = useState<string | null>(null)
 
   const form = useForm<z.infer<typeof loginSchema>>({
     defaultValues: {
@@ -35,7 +42,10 @@ export function LoginForm({
   // Handle form submission
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     try {
-      const {token,user} = await login(data)
+      // Reset login error state
+      setLoginError(null)
+
+      const { token, user } = await login(data)
 
       if (token && user) {
         // Redirect to dashboard or perform any other action after successful login
@@ -43,34 +53,60 @@ export function LoginForm({
       }
 
     } catch (err) {
-      console.error("Login error:", err);
-
-      // if(err instanceof AxiosError && err.response) {
-      //   // Handle specific error responses
-
-      //   if(err.response.status === 400 && err.response.data.error.message === "Validation Error") {
-      //     // Handle validation error
-      //     const errors = err.response.data.error.errors;
-          
-      //     console.log("Validation errors:", errors);
-      //   }
-      // }
-
-      // You can show an error message to the user here
-      alert("Login failed. Please check your credentials and try again.");
-
+      console.error("Login error:", err); // Log the error for debugging
+        
       form.resetField("password"); // Reset password field after failed login
 
-      // Set form errors for username and password fields
-      // This will display the error messages below the respective fields
-      form.setError("username", {
-        type: "manual",
-        message: "Login failed. Please check your credentials and try again."
-      });
-      form.setError("password", {
-        type: "manual",
-        message: "Login failed. Please check your credentials and try again."
-      });
+      if (err instanceof AxiosError && err.response) {
+        // Handle specific error responses
+
+        if (err.response.status === 400 && err.response.data.error.message === "Validation Error") {
+          // Handle validation error
+          const errors = err.response.data.error.errors as Array<{ field: string; message: string }>;
+          const errorMap: Record<string, string[]> = {};
+          errors.forEach(error => {
+            if (!errorMap[error.field]) {
+              errorMap[error.field] = [];
+            }
+            errorMap[error.field].push(error.message);
+          });
+
+          // Set form errors for username and password fields
+          if (errorMap.username) {
+            form.setError("username", {
+              type: "manual",
+              message: errorMap.username.join(", "), // Assuming the first error is the most relevant
+            });
+          }
+
+          if(errorMap.password) {
+            form.setError("password", {
+              type: "manual",
+              message: errorMap.password.join(", "), // Assuming the first error is the most relevant
+            });
+          }
+          
+          // Set login error state to display a generic error message
+          setLoginError("Login failed due to validation errors. Please check your credentials and try again.");
+        } else {
+          const errorMessage = err.response.data.error.message;
+          // Set login error state to display a generic error message
+          setLoginError(errorMessage || "Login failed. Please check your credentials and try again.");
+        }
+      } else {
+        setLoginError("An unexpected error occurred. Please try again later.");
+
+        // Set form errors for username and password fields
+        // This will display the error messages below the respective fields
+        form.setError("username", {
+          type: "manual",
+          message: "Login failed. Please check your credentials and try again."
+        });
+        form.setError("password", {
+          type: "manual",
+          message: "Login failed. Please check your credentials and try again."
+        });
+      }
     }
   };
 
@@ -92,7 +128,7 @@ export function LoginForm({
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>  
+            <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="grid gap-6">
                 <FormField
                   control={form.control}
@@ -105,7 +141,7 @@ export function LoginForm({
                           placeholder="ex: johndoe123"
                           {...field}
                         />
-                      </FormControl>         
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -132,6 +168,16 @@ export function LoginForm({
               </div>
             </form>
           </Form>
+          
+          {loginError && (
+            <Alert variant="destructive" className="p-0 border-0 mt-4">
+              <AlertCircleIcon />
+              <AlertTitle>Login gagal</AlertTitle>
+              <AlertDescription>
+                <p>{loginError}</p>
+              </AlertDescription>
+            </Alert>
+          )}
         </CardContent>
       </Card>
     </div>
