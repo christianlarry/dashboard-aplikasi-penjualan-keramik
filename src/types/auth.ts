@@ -5,11 +5,6 @@ export interface User {
   role: string
 }
 
-export interface AuthResponse {
-  user: User
-  token: string
-}
-
 export interface LoginCredentials {
   username: string
   password: string
@@ -20,6 +15,6 @@ export interface AuthContextType {
   token: string | null
   isAuthenticated: boolean
   isLoading: boolean
-  login: (credentials: LoginCredentials) => Promise<void>
+  login: (credentials: LoginCredentials) => Promise<{ user: User; token: string }>
   logout: () => void
 }

@@ -2,22 +2,36 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import type { AuthContextType, LoginCredentials, User } from '@/types/auth'
 import api from '@/lib/api'
 import { AxiosError } from 'axios'
+import { jwtDecode } from 'jwt-decode'
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
+
+// Get user data from JWT token
+function getUserFromToken(token: string): User | null {
+  try {
+    return jwtDecode<User>(token)
+  } catch {
+    return null
+  }
+}
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [token, setToken] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  // Load user from localStorage on mount
+  // Load user from token in localStorage on mount
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
-    const storedUser = localStorage.getItem('user')
-
-    if (storedToken && storedUser) {
-      setToken(storedToken)
-      setUser(JSON.parse(storedUser))
+    if (storedToken) {
+      const userData = getUserFromToken(storedToken)
+      if (userData) {
+        setToken(storedToken)
+        setUser(userData)
+      } else {
+        // If token is invalid or expired, clear everything
+        localStorage.removeItem('token')
+      }
     }
     setIsLoading(false)
   }, [])
@@ -25,18 +39,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = useCallback(async (credentials: LoginCredentials) => {
     try {
       setIsLoading(true)
-      const response = await api.post('/auth/login', credentials)
-      const { user, token } = response.data
+      // API hanya mengembalikan token
+      const { data: { token } } = await api.post<{ token: string }>('/auth/login', credentials)
+      
+      // Get user data from JWT payload
+      const userData = getUserFromToken(token)
+      if (!userData) {
+        throw new Error('Invalid token received from server')
+      }
 
-      // Save to localStorage
+      // Save token to localStorage
       localStorage.setItem('token', token)
-      localStorage.setItem('user', JSON.stringify(user))
 
-      // Update state
-      setUser(user)
+      // Update state with token and decoded user data
       setToken(token)
+      setUser(userData)
 
-      return response.data
+      return { user: userData, token }
     } catch (error) {
       if (error instanceof AxiosError) {
         throw new Error(error.response?.data?.message || 'Login failed')
@@ -50,7 +69,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = useCallback(() => {
     // Clear localStorage
     localStorage.removeItem('token')
-    localStorage.removeItem('user')
 
     // Clear state
     setUser(null)
