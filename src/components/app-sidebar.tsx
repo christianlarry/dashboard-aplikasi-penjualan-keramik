@@ -1,7 +1,6 @@
 import * as React from "react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
@@ -16,7 +15,7 @@ import Logo from "./ui/logo/logo"
 import { Link } from "react-router"
 import NavHome from "./nav-home"
 
-import { HOME_NAV_ITEMS, MAIN_NAV_ITEMS, SECONDARY_NAV_ITEMS } from "@/constants/navItems"
+import { HOME_NAV_ITEMS, MAIN_NAV_ITEMS } from "@/constants/navItems"
 
 // Data Sementara
 const data = {
@@ -48,7 +47,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavHome items={HOME_NAV_ITEMS} />
         <NavMain items={MAIN_NAV_ITEMS} />
-        <NavSecondary items={SECONDARY_NAV_ITEMS} className="mt-auto" />
+        {/* <NavSecondary items={SECONDARY_NAV_ITEMS} className="mt-auto" /> */}
       </SidebarContent>
 
       <SidebarFooter>

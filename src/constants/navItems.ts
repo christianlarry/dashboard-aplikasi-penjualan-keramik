@@ -1,4 +1,4 @@
-import { LifeBuoy, LucidePackage, LucideUser, Send } from "lucide-react"
+import { LucidePackage } from "lucide-react"
 import { TbDashboard } from "react-icons/tb"
 
 export interface NavItem {
@@ -40,40 +40,40 @@ export const MAIN_NAV_ITEMS: NavItem[] = [
       }
     ],
   },
-  {
-    title: "Pengguna",
-    url: "/users",
-    icon: LucideUser,
-    items: [
-      {
-        title: "Daftar Pengguna",
-        url: "/users/list",
-      },
-      {
-        title: "Tambah Pengguna",
-        url: "/users/add",
-      },
-      {
-        title: "Role & Permissions",
-        url: "/users/roles",
-      },
-      {
-        title: "Pengaturan User",
-        url: "/users/settings",
-      }
-    ],
-  },
+  // {
+  //   title: "Pengguna",
+  //   url: "/users",
+  //   icon: LucideUser,
+  //   items: [
+  //     {
+  //       title: "Daftar Pengguna",
+  //       url: "/users/list",
+  //     },
+  //     {
+  //       title: "Tambah Pengguna",
+  //       url: "/users/add",
+  //     },
+  //     {
+  //       title: "Role & Permissions",
+  //       url: "/users/roles",
+  //     },
+  //     {
+  //       title: "Pengaturan User",
+  //       url: "/users/settings",
+  //     }
+  //   ],
+  // },
 ]
 
-export const SECONDARY_NAV_ITEMS: NavItem[] = [
-  {
-    title: "Support",
-    url: "/support",
-    icon: LifeBuoy,
-  },
-  {
-    title: "Feedback",
-    url: "/feedback",
-    icon: Send,
-  },
-]
+// export const SECONDARY_NAV_ITEMS: NavItem[] = [
+//   {
+//     title: "Support",
+//     url: "/support",
+//     icon: LifeBuoy,
+//   },
+//   {
+//     title: "Feedback",
+//     url: "/feedback",
+//     icon: Send,
+//   },
+// ]
