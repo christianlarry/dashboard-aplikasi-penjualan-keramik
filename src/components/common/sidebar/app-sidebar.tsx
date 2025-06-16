@@ -1,7 +1,7 @@
 import * as React from "react"
 
-import { NavMain } from "@/components/nav-main"
-import { NavUser } from "@/components/nav-user"
+import { NavMain } from "@/components/common/sidebar/nav-main"
+import { NavUser } from "@/components/common/sidebar/nav-user"
 import {
   Sidebar,
   SidebarContent,
@@ -11,9 +11,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import Logo from "./ui/logo/logo"
+import Logo from "../../ui/logo/logo"
 import { Link } from "react-router"
-import NavHome from "./nav-home"
+import NavHome from "@/components/common/sidebar/nav-home"
 
 import { HOME_NAV_ITEMS, MAIN_NAV_ITEMS } from "@/constants/navItems"
 
