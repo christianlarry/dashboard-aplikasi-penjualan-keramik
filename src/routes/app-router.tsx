@@ -1,7 +1,9 @@
 import { createBrowserRouter, redirect, RouterProvider } from "react-router"
 
-// Import Layout
+// Import Layout & Components
 import MainLayout from "@/components/layouts/main-layout"
+import { ProtectedRoute } from "@/components/common/protected-route"
+import LoginPage from "@/components/pages/auth/login-page"
 
 // Import Pages
 import DashboardPage from "@/components/pages/dashboard/dashboard-page"
@@ -9,7 +11,6 @@ import AllProductsPage from "@/components/pages/products/all-products-page"
 import BestSellerPage from "@/components/pages/products/best-seller-page"
 import NewArrivalsPage from "@/components/pages/products/new-arrivals-page"
 import DiscountPage from "@/components/pages/products/discount-page"
-import LoginPage from "@/components/pages/auth/login-page"
 // import UserListPage from "@/components/pages/users/user-list-page"
 // import AddUserPage from "@/components/pages/users/add-user-page"
 // import UserRolesPage from "@/components/pages/users/user-roles-page"
@@ -17,12 +18,20 @@ import LoginPage from "@/components/pages/auth/login-page"
 // import SupportPage from "@/components/pages/support/support-page"
 // import FeedbackPage from "@/components/pages/feedback/feedback-page"
 
-const router = createBrowserRouter([  
+const router = createBrowserRouter([
+  {
+    path: "/login",
+    element: <LoginPage />
+  },
   {
     path: "/",
-    element: <MainLayout />,
+    element: (
+      <ProtectedRoute>
+        <MainLayout />
+      </ProtectedRoute>
+    ),
     children: [
-      { path: "/", element: <DashboardPage /> },
+      { index: true, element: <DashboardPage /> },
       // Products Routes
       { path: "products", loader: () => redirect("/products/all") },
       { path: "products/all", element: <AllProductsPage /> },
@@ -39,10 +48,6 @@ const router = createBrowserRouter([
       // { path: "support", element: <SupportPage /> },
       // { path: "feedback", element: <FeedbackPage /> }
     ]
-  },
-  {
-    path: "/login",
-    element: <LoginPage/>
   }
 ])
 

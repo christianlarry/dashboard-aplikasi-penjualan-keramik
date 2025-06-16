@@ -15,6 +15,8 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginSchema } from "@/validations/loginSchema"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { useAuth } from "@/contexts/auth-context"
+import { AxiosError } from "axios"
 
 export function LoginForm({
   className,
@@ -29,14 +31,48 @@ export function LoginForm({
     resolver: zodResolver(loginSchema),
   })
 
-  const onSubmit = (data: z.infer<typeof loginSchema>) => {
-    login(data);
-    // Handle form submission logic here
-  };
-  
-  const login = (data: z.infer<typeof loginSchema>) => {
-    console.log("Login data:", data);
-    // Implement login logic here, e.g., API call
+  const { login } = useAuth() // Assuming useAuth is a custom hook that provides the login function
+
+  // Handle form submission
+  const onSubmit = async (data: z.infer<typeof loginSchema>) => {
+    try {
+      const {token,user} = await login(data)
+
+      if (token && user) {
+        // Redirect to dashboard or perform any other action after successful login
+        window.location.href = "/"; // Adjust the redirect path as needed
+      }
+
+    } catch (err) {
+      console.error("Login error:", err);
+
+      // if(err instanceof AxiosError && err.response) {
+      //   // Handle specific error responses
+
+      //   if(err.response.status === 400 && err.response.data.error.message === "Validation Error") {
+      //     // Handle validation error
+      //     const errors = err.response.data.error.errors;
+          
+      //     console.log("Validation errors:", errors);
+      //   }
+      // }
+
+      // You can show an error message to the user here
+      alert("Login failed. Please check your credentials and try again.");
+
+      form.resetField("password"); // Reset password field after failed login
+
+      // Set form errors for username and password fields
+      // This will display the error messages below the respective fields
+      form.setError("username", {
+        type: "manual",
+        message: "Login failed. Please check your credentials and try again."
+      });
+      form.setError("password", {
+        type: "manual",
+        message: "Login failed. Please check your credentials and try again."
+      });
+    }
   };
 
   return (

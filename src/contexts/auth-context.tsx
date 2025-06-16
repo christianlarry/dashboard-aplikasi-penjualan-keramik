@@ -1,7 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import type { AuthContextType, LoginCredentials, User } from '@/types/auth'
 import api from '@/lib/api'
-import { AxiosError } from 'axios'
 import { jwtDecode } from 'jwt-decode'
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -37,33 +36,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const login = useCallback(async (credentials: LoginCredentials) => {
-    try {
-      setIsLoading(true)
-      // API hanya mengembalikan token
-      const { data: { token } } = await api.post<{ token: string }>('/auth/login', credentials)
-      
-      // Get user data from JWT payload
-      const userData = getUserFromToken(token)
-      if (!userData) {
-        throw new Error('Invalid token received from server')
-      }
-
-      // Save token to localStorage
-      localStorage.setItem('token', token)
-
-      // Update state with token and decoded user data
-      setToken(token)
-      setUser(userData)
-
-      return { user: userData, token }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        throw new Error(error.response?.data?.message || 'Login failed')
-      }
-      throw error
-    } finally {
-      setIsLoading(false)
+    setIsLoading(true)
+    // API hanya mengembalikan token
+    const { data: { token } } = await api.post<{ token: string }>('/user/login', credentials)
+    
+    // Get user data from JWT payload
+    const userData = getUserFromToken(token)
+    if (!userData) {
+      throw new Error('Invalid token received from server')
     }
+
+    // Save token to localStorage
+    localStorage.setItem('token', token)
+
+    // Update state with token and decoded user data
+    setToken(token)
+    setUser(userData)
+    
+    // Set loading to false after login
+    setIsLoading(false)
+
+    return { user: userData, token }
   }, [])
 
   const logout = useCallback(() => {

@@ -1,3 +1,6 @@
+import type { loginSchema } from "@/validations/loginSchema"
+import type { z } from "zod"
+
 export interface User {
   id: string
   username: string
@@ -5,11 +8,7 @@ export interface User {
   role: string
 }
 
-export interface LoginCredentials {
-  username: string
-  password: string
-}
-
+export type LoginCredentials = z.infer<typeof loginSchema>
 export interface AuthContextType {
   user: User | null
   token: string | null
