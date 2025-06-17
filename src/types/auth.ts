@@ -4,7 +4,8 @@ import type { z } from "zod"
 export interface User {
   id: string
   username: string
-  email: string
+  firstName: string
+  lastName: string
   role: string
 }
 
