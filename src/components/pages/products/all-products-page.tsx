@@ -7,6 +7,7 @@ import { TbInfoCircle } from "react-icons/tb"
 
 
 const AllProductsPage = () => {
+
   return (
     <div className="flex flex-1 flex-col gap-4">
       <div className="grid auto-rows-min gap-4 xl:grid-cols-4">
@@ -30,7 +31,7 @@ const AllProductsPage = () => {
           </CardHeader>
         </Card>
       </div>
-      
+
       <ProductTable/>
     </div>
   )
