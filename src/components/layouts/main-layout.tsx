@@ -14,7 +14,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { Outlet, useLocation } from "react-router"
+import { Link, Outlet, useLocation } from "react-router"
 
 interface BreadcrumbItem {
   label: string
@@ -69,7 +69,7 @@ const MainLayout = () => {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2">
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b ">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator
@@ -82,9 +82,11 @@ const MainLayout = () => {
                   <React.Fragment key={idx}>
                     <BreadcrumbItem>
                       {item.href ? (
-                        <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
+                        <BreadcrumbLink asChild>
+                          <Link to={item.href}>{item.label}</Link>
+                        </BreadcrumbLink>
                       ) : (
-                        <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                        <BreadcrumbPage className="font-semibold">{item.label}</BreadcrumbPage>
                       )}
                     </BreadcrumbItem>
                     {idx < items.length - 1 && <BreadcrumbSeparator />}
@@ -94,7 +96,7 @@ const MainLayout = () => {
             </Breadcrumb>
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0 mt-6">
           <Outlet />
         </div>
       </SidebarInset>
