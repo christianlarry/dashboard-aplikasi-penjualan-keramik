@@ -19,7 +19,7 @@ export const HOME_NAV_ITEMS: NavItem[] = [
 export const MAIN_NAV_ITEMS: NavItem[] = [
   {
     title: "Produk",
-    url: "/products",
+    url: "/products/all",
     icon: LucidePackage,
     items: [
       {
