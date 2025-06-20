@@ -11,6 +11,7 @@ import AllProductsPage from "@/components/pages/products/all-products-page"
 import BestSellerPage from "@/components/pages/products/best-seller-page"
 import NewArrivalsPage from "@/components/pages/products/new-arrivals-page"
 import DiscountPage from "@/components/pages/products/discount-page"
+import ErrorPage from "@/components/pages/errors/error-page"
 // import UserListPage from "@/components/pages/users/user-list-page"
 // import AddUserPage from "@/components/pages/users/add-user-page"
 // import UserRolesPage from "@/components/pages/users/user-roles-page"
@@ -21,7 +22,8 @@ import DiscountPage from "@/components/pages/products/discount-page"
 const router = createBrowserRouter([
   {
     path: "/login",
-    element: <LoginPage />
+    element: <LoginPage />,
+    errorElement: <ErrorPage/>
   },
   {
     path: "/",
@@ -30,6 +32,7 @@ const router = createBrowserRouter([
         <MainLayout />
       </ProtectedRoute>
     ),
+    errorElement: <ErrorPage/>,
     children: [
       { index: true, element: <DashboardPage /> },
       // Products Routes
