@@ -6,8 +6,9 @@ import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import useProduct from "@/hooks/use-product"
 import { Grid2X2, PlusCircle } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { TbInfoCircle } from "react-icons/tb"
+import { useLocation } from "react-router"
 
 
 const AllProductsPage = () => {
@@ -24,6 +25,18 @@ const AllProductsPage = () => {
   })
 
   const { data, isLoading } = getProducts
+
+  // Location
+  const location = useLocation()
+
+  useEffect(()=>{
+    const searchParams = new URLSearchParams(location.search)
+
+    setSearchKeyword(searchParams.get("search") || undefined)
+    setPage((prev)=> searchParams.get("page") ? Number(searchParams.get("page")) : prev)
+    setSize((prev)=> searchParams.get("pageSize") ? Number(searchParams.get("pageSize")) : prev)
+
+  },[location])
 
   if (isLoading) return <LoadingScreen />
 
@@ -60,9 +73,6 @@ const AllProductsPage = () => {
       <ProductTable 
         products = {data ? data.data : []}
         pagination = {data?.page}
-        onPageChange = {(val)=>setPage(val)}
-        onSearch={(val)=>setSearchKeyword(val)}
-        onPageSizeChange={(val)=>setSize(val)}
       />
 
       

@@ -6,35 +6,84 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Pagination, PaginationContent, PaginationItem } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, LucideX } from "lucide-react";
 import type { Pagination as PaginationType } from "@/types/globalTypes";
+import { useLocation, useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import { buildCurrentUrlWithParams } from "@/lib/utils";
 
 interface Props {
   products: Product[]
   pagination?: PaginationType
-  onSearch?: (val:string)=>void
-  onPageChange?: (val:number)=>void
-  onPageSizeChange?: (val:number)=>void
 }
 
 const ProductTable = ({
   products,
-  pagination,
-  onSearch = ()=>{},
-  onPageChange = ()=>{},
-  onPageSizeChange = ()=>{} 
+  pagination
 }: Props) => {
 
+  // State
+  const [search, setSearch] = useState<string>("")
+  const [isSearched,setIsSearched] = useState<boolean>(false)
+
   // Handler
-  const handleSearchInputKeyDown:React.KeyboardEventHandler<HTMLInputElement> = (e)=>{
-    if(e.key === "Enter"){
+  const handleSearchInputKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key === "Enter") {
       const keyword = e.currentTarget.value
 
-      if(keyword.length > 0) {
+      if (keyword.length > 0) {
         onSearch(keyword)
       }
 
     }
+  }
+
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search)
+
+    const searchVal = searchParams.get("search")
+
+    if(searchVal){
+      setSearch(searchVal)
+      setIsSearched(true)
+    }else{
+      setSearch("")
+      setIsSearched(false)
+    }
+
+  }, [location])
+
+  // Handler Search
+
+  const onSearch = (val: string) => {
+    navigate(buildCurrentUrlWithParams(
+      location,
+      { "search": val }
+    ))
+  }
+
+  const onPageChange = (val: number) => {
+    navigate(buildCurrentUrlWithParams(
+      location,
+      { "page": val }
+    ))
+  }
+
+  const onPageSizeChange = (val: number) => {
+    navigate(buildCurrentUrlWithParams(
+      location,
+      { "pageSize": val }
+    ))
+  }
+
+  const handleResetSearch = ()=>{
+    navigate(buildCurrentUrlWithParams(
+      location,
+      {"search":undefined}
+    ))
   }
 
   return (
@@ -44,11 +93,18 @@ const ProductTable = ({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             type="text"
             placeholder="Cari produk..."
             className="w-[250px]"
-            onKeyDown={handleSearchInputKeyDown}  
+            onKeyDown={handleSearchInputKeyDown}
           />
+          {isSearched &&
+            <Button variant="ghost" className="cursor-pointer" onClick={handleResetSearch}>
+              Reset <LucideX/>
+            </Button>
+          }
         </div>
       </div>
 
@@ -68,7 +124,7 @@ const ProductTable = ({
             </TableHeader>
             <TableBody>
               {products.map(product => (
-                <ProductTableRow key={product._id} product={product}/>
+                <ProductTableRow key={product._id} product={product} />
               ))}
             </TableBody>
           </Table>
@@ -77,80 +133,81 @@ const ProductTable = ({
 
       {/* // Pagination */}
       {pagination &&
-      <div className="flex items-center justify-center sm:justify-between gap-2">
-        <div className="flex-1 flex items-center gap-2">
-          <Label htmlFor="pageSizeInput" className="font-medium text-sm whitespace-nowrap">Baris per halaman</Label>
-          <Select
-            onValueChange={(val) => {
-              onPageSizeChange(parseInt(val))
-            }}
-          >
-            <SelectTrigger id="pageSizeInput">
-              <SelectValue className="text-sm" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="10">10</SelectItem>
-              <SelectItem value="20">20</SelectItem>
-              <SelectItem value="30">30</SelectItem>
-              <SelectItem value="40">40</SelectItem>
-              <SelectItem value="50">50</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <div className="flex items-center justify-center sm:justify-between gap-2">
+          <div className="flex-1 flex items-center gap-2">
+            <Label htmlFor="pageSizeInput" className="font-medium text-sm whitespace-nowrap">Baris per halaman</Label>
+            <Select
+              value={String(pagination.size)}
+              onValueChange={(val) => {
+                onPageSizeChange(parseInt(val))
+              }}
+            >
+              <SelectTrigger id="pageSizeInput">
+                <SelectValue className="text-sm" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="20">20</SelectItem>
+                <SelectItem value="30">30</SelectItem>
+                <SelectItem value="40">40</SelectItem>
+                <SelectItem value="50">50</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
-        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
 
-          <p className="text-muted-foreground text-sm sm:block hidden whitespace-nowrap">Halaman {pagination.current} dari {pagination.totalPages}</p>
-          
-          
+            <p className="text-muted-foreground text-sm sm:block hidden whitespace-nowrap">Halaman {pagination.current} dari {pagination.totalPages}</p>
+
+
             <Pagination>
               <PaginationContent>
                 <PaginationItem>
-                  <Button 
-                    className="aspect-square size-8" 
+                  <Button
+                    className="aspect-square size-8"
                     variant="outline"
-                    onClick={()=>onPageChange(1)}
-                    disabled={pagination.current==1}
+                    onClick={() => onPageChange(1)}
+                    disabled={pagination.current == 1}
                   >
-                    <ChevronsLeft/>
+                    <ChevronsLeft />
                   </Button>
                 </PaginationItem>
                 <PaginationItem>
-                  <Button 
-                    className="aspect-square size-8" 
+                  <Button
+                    className="aspect-square size-8"
                     variant="outline"
-                    onClick={()=>onPageChange(pagination.current-1)}
-                    disabled={pagination.current==1}
+                    onClick={() => onPageChange(pagination.current - 1)}
+                    disabled={pagination.current == 1}
                   >
-                    <ChevronLeft/>
+                    <ChevronLeft />
                   </Button>
                 </PaginationItem>
 
                 <PaginationItem>
-                  <Button 
-                    className="aspect-square size-8" 
+                  <Button
+                    className="aspect-square size-8"
                     variant="outline"
-                    onClick={()=>onPageChange(pagination.current+1)}
-                    disabled={pagination.current==pagination.totalPages}
+                    onClick={() => onPageChange(pagination.current + 1)}
+                    disabled={pagination.current == pagination.totalPages}
                   >
-                    <ChevronRight/>
+                    <ChevronRight />
                   </Button>
                 </PaginationItem>
                 <PaginationItem>
-                  <Button 
-                    className="aspect-square size-8" 
+                  <Button
+                    className="aspect-square size-8"
                     variant="outline"
-                    onClick={()=>onPageChange(pagination.totalPages)}
-                    disabled={pagination.current==pagination.totalPages}
+                    onClick={() => onPageChange(pagination.totalPages)}
+                    disabled={pagination.current == pagination.totalPages}
                   >
-                    <ChevronsRight/>
+                    <ChevronsRight />
                   </Button>
                 </PaginationItem>
               </PaginationContent>
             </Pagination>
 
+          </div>
         </div>
-      </div>
       }
     </div>
   )

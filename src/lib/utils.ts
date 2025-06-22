@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx"
+import type { Location } from "react-router";
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
@@ -25,3 +26,19 @@ export function buildUrlWithParams(baseUrl: string, params?: Record<string, stri
   // Hanya mengembalikan path + query, tanpa origin
   return url.pathname + url.search
 }
+
+export const buildCurrentUrlWithParams = (location:Location, params?: Record<string, string | number | boolean | undefined>) =>{
+    const searchParams = new URLSearchParams(location.search)
+
+    if(params){
+      Object.entries(params).forEach(([key,value])=>{
+        if(value !== undefined && value){
+          searchParams.set(key,String(value))
+        }else{
+          searchParams.delete(key)
+        }
+      })
+    }
+
+    return [location.pathname,searchParams.toString()].join("?")
+  }
