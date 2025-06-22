@@ -1,3 +1,5 @@
+import type { Pagination } from "./globalTypes";
+
 export interface Product {
   _id?: string,
   name: string,
@@ -50,11 +52,4 @@ export interface PostProductRequestBody{
   isBestSeller?: boolean;
   isNewArrivals?: boolean;
   recommended?: string[];
-}
-
-interface Pagination {
-  size:number,
-  total:number,
-  current:number,
-  totalPages:number
 }

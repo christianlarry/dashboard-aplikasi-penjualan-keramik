@@ -12,3 +12,16 @@ export function formatCurrency(value: number): string{
     maximumFractionDigits: 0
   }) + ",00";
 }
+
+export function buildUrlWithParams(baseUrl: string, params?: Record<string, string | number | boolean | undefined>) {
+  const url = new URL(baseUrl, window.location.origin)
+  if (params) {
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        url.searchParams.append(key, String(value))
+      }
+    })
+  }
+  // Hanya mengembalikan path + query, tanpa origin
+  return url.pathname + url.search
+}
