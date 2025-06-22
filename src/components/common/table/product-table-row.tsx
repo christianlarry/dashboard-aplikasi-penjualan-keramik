@@ -15,7 +15,7 @@ const ProductTableRow = ({ product }: Props) => {
   return (
     <TableRow>
       <TableCell>
-        <Avatar className="size-24 rounded-lg">
+        <Avatar className="size-30 aspect-square rounded-lg">
           {product.image ?
             <AvatarImage src={product.image} alt={product.name} /> :
             <AvatarFallback className="rounded-lg">{product.name[0].toUpperCase()}</AvatarFallback>
@@ -57,6 +57,21 @@ const ProductTableRow = ({ product }: Props) => {
             <span className="w-24 text-xs text-muted-foreground">Tekstur</span>
             <span className="text-xs">{product.specification.texture}</span>
           </div>
+          <div className="flex">
+            <span className="w-24 text-xs text-muted-foreground">Anti Selip?</span>
+            <span className="text-xs">{product.specification.isSlipResistant ? "Ya":"Tidak"}</span>
+          </div>
+          <div className="flex">
+            <span className="w-24 text-xs text-muted-foreground">Anti Air?</span>
+            <span className="text-xs">{product.specification.isWaterResistant ? "Ya":"Tidak"}</span>
+          </div>
+        </div>
+      </TableCell>
+      <TableCell>
+        <div className="flex flex-col gap-1">
+          {product.recommended && product.recommended.map((val)=>(
+            <span className="w-24 text-xs text-muted-foreground">{val}</span>
+          ))}
         </div>
       </TableCell>
       <TableCell>{product.specification.size.width}x{product.specification.size.height} cm</TableCell>
@@ -75,6 +90,7 @@ const ProductTableRow = ({ product }: Props) => {
           <span className="font-medium">Rp.{formatCurrency(product.finalPrice)}</span>
         </div>
       </TableCell>
+      <TableCell>{new Date(product.createdAt).toUTCString()}</TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end">
           <DropdownMenu>

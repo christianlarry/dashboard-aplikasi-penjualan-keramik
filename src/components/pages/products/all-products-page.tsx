@@ -1,7 +1,8 @@
-import { LoadingScreen } from "@/components/common/loading-screen"
+import {AnimatePresence, motion} from "framer-motion"
 import ProductTable from "@/components/common/table/product-table"
 import { Button } from "@/components/ui/button"
 import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Spinner } from "@/components/ui/spinner"
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import useProduct from "@/hooks/use-product"
@@ -33,12 +34,10 @@ const AllProductsPage = () => {
     const searchParams = new URLSearchParams(location.search)
 
     setSearchKeyword(searchParams.get("search") || undefined)
-    setPage((prev)=> searchParams.get("page") ? Number(searchParams.get("page")) : prev)
-    setSize((prev)=> searchParams.get("pageSize") ? Number(searchParams.get("pageSize")) : prev)
+    setPage(searchParams.get("page") ? Number(searchParams.get("page")) : 1)
+    setSize(searchParams.get("pageSize") ? Number(searchParams.get("pageSize")) : 10)
 
   },[location])
-
-  if (isLoading) return <LoadingScreen />
 
   return (
     <div className="flex flex-1 flex-col gap-4">
@@ -49,7 +48,9 @@ const AllProductsPage = () => {
               <Grid2X2 size={16} />
               Total Produk
             </CardDescription>
-            <CardTitle className="font-bold text-3xl">{data ? data.page.total : 0} item</CardTitle>
+            <CardTitle className="font-bold text-3xl">
+              {data ? data.page.total : 0} item
+            </CardTitle>
             <CardAction>
               <Tooltip>
                 <TooltipTrigger>
@@ -61,7 +62,7 @@ const AllProductsPage = () => {
               </Tooltip>
             </CardAction>
             <CardFooter className="px-0 mt-2">
-              <Button>
+              <Button className="cursor-pointer">
                 <PlusCircle/>
                 Tambah Produk
               </Button>
@@ -70,11 +71,34 @@ const AllProductsPage = () => {
         </Card>
       </div>
 
-      <ProductTable 
-        products = {data ? data.data : []}
-        pagination = {data?.page}
-      />
-
+      <AnimatePresence mode="wait">
+        {isLoading ? 
+          <div className="flex-1 flex items-center justify-center">
+            <motion.div 
+              key="loader"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <div className="flex items-center justify-center">
+                <Spinner>Loading...</Spinner>
+              </div>
+            </motion.div>
+          </div>
+          :
+          <motion.div
+            key="productTable"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <ProductTable 
+              products = {data ? data.data:[]}
+              pagination = {data?.page}
+            />
+          </motion.div>
+        }
+      </AnimatePresence>
       
     </div>
   )

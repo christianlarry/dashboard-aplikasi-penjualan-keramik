@@ -117,8 +117,10 @@ const ProductTable = ({
                 <TableHead className="w-[50px]"></TableHead>
                 <TableHead>Nama Produk / Brand</TableHead>
                 <TableHead>Spesifikasi</TableHead>
+                <TableHead>Digunakan di</TableHead>
                 <TableHead>Ukuran</TableHead>
                 <TableHead>Harga</TableHead>
+                <TableHead>Created At</TableHead>
                 <TableHead className="text-right"></TableHead>
               </TableRow>
             </TableHeader>
