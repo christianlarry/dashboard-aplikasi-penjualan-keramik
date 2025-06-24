@@ -111,31 +111,37 @@ const ProductTable = ({
       {/* // Product Table */}
       <div className="relative">
         <div className="border rounded-lg">
-          <Table>
-            <TableHeader className="sticky top-0 z-10">
-              <TableRow>
-                <TableHead className="w-[50px]"></TableHead>
-                <TableHead>Nama Produk / Brand</TableHead>
-                <TableHead>Spesifikasi</TableHead>
-                <TableHead>Digunakan di</TableHead>
-                <TableHead>Ukuran</TableHead>
-                <TableHead>Harga</TableHead>
-                <TableHead>Created At</TableHead>
-                <TableHead className="text-right"></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {products.map(product => (
-                <ProductTableRow key={product._id} product={product} />
-              ))}
-            </TableBody>
-          </Table>
+          { products.length > 0 ? 
+            <Table>
+              <TableHeader className="sticky top-0 z-10">
+                <TableRow>
+                  <TableHead className="w-[50px]"></TableHead>
+                  <TableHead>Nama Produk / Brand</TableHead>
+                  <TableHead>Spesifikasi</TableHead>
+                  <TableHead>Digunakan di</TableHead>
+                  <TableHead>Ukuran</TableHead>
+                  <TableHead>Harga</TableHead>
+                  <TableHead>Created At</TableHead>
+                  <TableHead className="text-right"></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {products.map(product => (
+                  <ProductTableRow key={product._id} product={product} />
+                ))}
+              </TableBody>
+            </Table>
+          :
+            <div className="flex w-full items-center justify-center p-4">
+              <h3 className="font-semibold">Produk tidak ada:(</h3>
+            </div>
+          }
         </div>
       </div>
 
       {/* // Pagination */}
       {pagination &&
-        <div className="flex items-center justify-center sm:justify-between gap-2">
+        <div className="flex flex-wrap items-center justify-center sm:justify-between gap-2">
           <div className="flex-1 flex items-center gap-2">
             <Label htmlFor="pageSizeInput" className="font-medium text-sm whitespace-nowrap">Baris per halaman</Label>
             <Select

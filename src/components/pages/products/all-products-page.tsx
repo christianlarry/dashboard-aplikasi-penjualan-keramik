@@ -10,6 +10,7 @@ import { Grid2X2, PlusCircle } from "lucide-react"
 import { useEffect, useState } from "react"
 import { TbInfoCircle } from "react-icons/tb"
 import { useLocation } from "react-router"
+import AddProductModal from "@/components/common/modal/add-product-modal"
 
 
 const AllProductsPage = () => {
@@ -18,6 +19,9 @@ const AllProductsPage = () => {
   const [page, setPage] = useState<number>(1)
   const [size, setSize] = useState<number>(10)
   const [searchKeyword,setSearchKeyword] = useState<string | undefined>(undefined)
+
+  // State for add product dialog
+  const [isAddProductModalShow, setIsAddProductModalShow] = useState<boolean>(false)
 
   const { getProducts } = useProduct({
     page,
@@ -62,14 +66,18 @@ const AllProductsPage = () => {
               </Tooltip>
             </CardAction>
             <CardFooter className="px-0 mt-2">
-              <Button className="cursor-pointer">
+              <Button className="cursor-pointer" onClick={()=>setIsAddProductModalShow(true)}>
                 <PlusCircle/>
                 Tambah Produk
               </Button>
+
+              <AddProductModal open={isAddProductModalShow} onOpenChange={(val)=>setIsAddProductModalShow(val)}/>
             </CardFooter>
           </CardHeader>
         </Card>
       </div>
+
+      <AddProductModal/>
 
       <AnimatePresence mode="wait">
         {isLoading ? 

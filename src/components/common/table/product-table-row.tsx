@@ -70,7 +70,7 @@ const ProductTableRow = ({ product }: Props) => {
       <TableCell>
         <div className="flex flex-col gap-1">
           {product.recommended && product.recommended.map((val)=>(
-            <span className="w-24 text-xs text-muted-foreground">{val}</span>
+            <span key={val} className="w-24 text-xs text-muted-foreground">{val}</span>
           ))}
         </div>
       </TableCell>
