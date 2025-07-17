@@ -1,5 +1,5 @@
 import {AnimatePresence, motion} from "framer-motion"
-import ProductTable from "@/components/common/table/product-table"
+import ProductTable from "@/components/common/table/product-table/product-table"
 import { Button } from "@/components/ui/button"
 import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Spinner } from "@/components/ui/spinner"
@@ -76,8 +76,6 @@ const AllProductsPage = () => {
           </CardHeader>
         </Card>
       </div>
-
-      <AddProductModal/>
 
       <AnimatePresence mode="wait">
         {isLoading ? 

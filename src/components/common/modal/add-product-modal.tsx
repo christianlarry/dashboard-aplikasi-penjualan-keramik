@@ -1,17 +1,16 @@
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogPortal } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogPortal } from "@/components/ui/dialog"
+import AddProductForm from "../form/add-product-form"
 
-interface Props{
-  open?:boolean
-  onOpenChange?:(open:boolean)=>void
+interface Props {
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }
 
 const AddProductModal = ({
-  open=false,
+  open = false,
   onOpenChange
-}:Props)=>{
-
-  if(!open) return null
+}: Props) => {  
+  if (!open) return null
 
   return (
     <Dialog open onOpenChange={onOpenChange}>
@@ -20,17 +19,7 @@ const AddProductModal = ({
           <DialogHeader>
             <h2 className="text-lg font-semibold">Tambah Produk Keramik</h2>
           </DialogHeader>
-          
-          <div>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio est ratione recusandae aspernatur modi explicabo. Ad explicabo aperiam at minima veritatis, nulla odio laudantium aspernatur recusandae velit, totam et voluptas?
-          </div>
-
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button type="submit">Simpan Produk</Button>
-          </DialogFooter>
+          <AddProductForm/>
         </DialogContent>
       </DialogPortal>
     </Dialog>

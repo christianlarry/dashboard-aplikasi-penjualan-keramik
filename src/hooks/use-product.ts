@@ -39,9 +39,20 @@ const useProduct = ({page,size,search}:GetProductsQueryParams)=>{
     }
   })
 
+  const deleteProduct = useMutation({
+    mutationFn: (productId: string) => {
+      return api.delete(`/products/${productId}`)
+    },
+    onSuccess: () => {
+      // Invalidate and refetch products after deletion
+      queryClient.invalidateQueries({ queryKey: ['products'] })
+    }
+  })
+
   return {
     getProducts,
-    addProduct
+    addProduct,
+    deleteProduct
   }
 }
 

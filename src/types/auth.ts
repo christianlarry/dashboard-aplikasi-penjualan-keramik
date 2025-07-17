@@ -1,4 +1,4 @@
-import type { loginSchema } from "@/validations/loginSchema"
+import type { loginSchema } from "@/validations/authSchema"
 import type { z } from "zod"
 
 export interface User {
