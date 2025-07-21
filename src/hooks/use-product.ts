@@ -39,6 +39,7 @@ const useProduct = ({page,size,search}:GetProductsQueryParams)=>{
     }
   })
 
+  // Delete product
   const deleteProduct = useMutation({
     mutationFn: (productId: string) => {
       return api.delete(`/products/${productId}`)

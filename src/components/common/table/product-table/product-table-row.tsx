@@ -8,6 +8,8 @@ import type { Product } from "@/types/product";
 import { TbDots, TbTrash } from "react-icons/tb";
 import { useState } from "react";
 import DeleteProductConfirmDialog from "../../alert-dialog/delete-product-confirm-dialog";
+import ProductDetailsModal from "../../modal/product-details-modal";
+import EditProductModal from "../../modal/edit-product-modal";
 
 interface Props {
   product: Product
@@ -93,11 +95,11 @@ const ProductTableRow = ({ product }: Props) => {
                   {product.discount}% off
                 </span>
                 <span className="text-muted-foreground">
-                  Rp. <span className="line-through">{formatCurrency(product.price)}</span>
+                  Rp<span className="line-through">{formatCurrency(product.price)}</span>
                 </span>
               </div>
             )}
-            <span className="font-medium">Rp.{formatCurrency(product.finalPrice)}</span>
+            <span className="font-medium">Rp{formatCurrency(product.finalPrice)}</span>
           </div>
         </TableCell>
         <TableCell>{new Date(product.createdAt).toUTCString()}</TableCell>
@@ -134,6 +136,18 @@ const ProductTableRow = ({ product }: Props) => {
         product={product}
         onOpenChange={(open)=>setIsDeleteMenuOpen(open)} 
         open={isDeleteMenuOpen} 
+      />
+
+      <ProductDetailsModal
+        product={product}
+        open={isDetailsMenuOpen}
+        onOpenChange={(open)=>setIsDetailsMenuOpen(open)}
+      />
+
+      <EditProductModal
+        product={product}
+        open={isEditMenuOpen}
+        onOpenChange={(open)=>setIsEditMenuOpen(open)}
       />
     </>
   )

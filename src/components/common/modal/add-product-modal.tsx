@@ -1,15 +1,11 @@
 import { Dialog, DialogContent, DialogHeader, DialogPortal } from "@/components/ui/dialog"
 import AddProductForm from "../form/add-product-form"
-
-interface Props {
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
-}
+import type { CustomModalProps } from "@/types/modal"
 
 const AddProductModal = ({
   open = false,
   onOpenChange
-}: Props) => {  
+}: CustomModalProps) => {  
   if (!open) return null
 
   return (
