@@ -15,6 +15,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { Link, Outlet, useLocation } from "react-router"
+import { Toaster } from "../ui/sonner"
 
 interface BreadcrumbItem {
   label: string
@@ -100,6 +101,10 @@ const MainLayout = () => {
           <Outlet />
         </div>
       </SidebarInset>
+
+      <Toaster 
+        position="top-center"
+      />
     </SidebarProvider>
   )
 }

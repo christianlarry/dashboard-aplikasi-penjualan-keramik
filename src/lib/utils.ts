@@ -14,6 +14,12 @@ export function formatCurrency(value: number): string{
   }) + ",00";
 }
 
+const productImgBaseUrl = import.meta.env.VITE_API_PRODUCT_IMG_BASEURL || ""
+
+export const getProductImgUrl = (imagePath:string):string=>{
+  return productImgBaseUrl+imagePath
+}
+
 export function buildUrlWithParams(baseUrl: string, params?: Record<string, string | number | boolean | undefined>) {
   const url = new URL(baseUrl, window.location.origin)
   if (params) {
