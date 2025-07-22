@@ -63,7 +63,7 @@ const ProductDetailsTable = ({
         </TableRow>
         <TableRow>
           <TableHead>Best Seller?</TableHead>
-          <TableCell className="flex justify-between items-center">
+          <TableCell className="flex flex-wrap justify-between items-center">
             {product.isBestSeller ? "Ya":"Tidak"}
             {!product.isBestSeller ? 
               <Button className="size-auto p-1 px-2">Add to Best Seller</Button>
@@ -74,7 +74,7 @@ const ProductDetailsTable = ({
         </TableRow>
         <TableRow>
           <TableHead>New Arrivals?</TableHead>
-          <TableCell className="flex justify-between items-center">
+          <TableCell className="flex flex-wrap justify-between items-center">
             {product.isNewArrivals ? "Ya":"Tidak"}
             {!product.isNewArrivals ? 
               <Button className="size-auto p-1 px-2">Add to New Arrivals</Button>
@@ -118,11 +118,11 @@ const ProductDetailsTable = ({
           <TableHead>MetaData</TableHead>
           <TableCell>
             <ul>
-              <li className="flex">
+              <li className="flex flex-wrap">
                 <span className="w-[100px]">createdAt</span>
                 <span>{new Date(product.createdAt).toUTCString()}</span>
               </li>
-              <li className="flex">
+              <li className="flex flex-wrap">
                 <span className="w-[100px]">updatedAt</span>
                 <span>{new Date(product.updatedAt).toUTCString()}</span>
               </li>

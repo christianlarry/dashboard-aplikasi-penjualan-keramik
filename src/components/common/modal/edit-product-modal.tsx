@@ -11,12 +11,9 @@ const EditProductModal = ({
   open = false,
   product 
 }:Props) => {
-
-  if(!open) return null
-
   return (
 
-    <Dialog open onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogPortal>
         <DialogContent>
           <DialogHeader>

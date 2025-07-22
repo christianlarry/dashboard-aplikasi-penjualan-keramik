@@ -1,21 +1,42 @@
-import { Dialog, DialogContent, DialogHeader, DialogPortal } from "@/components/ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogPortal, DialogTitle } from "@/components/ui/dialog"
 import AddProductForm from "../form/add-product-form"
 import type { CustomModalProps } from "@/types/modal"
+import { Button } from "@/components/ui/button"
+import { useRef } from "react"
 
 const AddProductModal = ({
   open = false,
   onOpenChange
 }: CustomModalProps) => {  
-  if (!open) return null
+
+  const formRef = useRef<HTMLFormElement>(null)
+
+  const handleSaveBtnClick = ()=>{
+    formRef.current?.requestSubmit()
+  }
 
   return (
-    <Dialog open onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogPortal>
-        <DialogContent>
+        <DialogContent className="md:max-w-3xl">
           <DialogHeader>
-            <h2 className="text-lg font-semibold">Tambah Produk Keramik</h2>
+            <DialogTitle>Tambah Produk Keramik</DialogTitle>
+            <DialogDescription>
+              Isi form berikut untuk menambahkan produk baru ke dalam database.
+            </DialogDescription>
           </DialogHeader>
-          <AddProductForm/>
+          
+          <section className="max-h-[80vh] overflow-y-auto">
+            <AddProductForm ref={formRef}/>
+          </section>
+
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button onClick={handleSaveBtnClick}>Simpan Produk</Button>
+          </DialogFooter>
+
         </DialogContent>
       </DialogPortal>
     </Dialog>

@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogPortal, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogPortal, DialogTitle } from "@/components/ui/dialog"
 import type { CustomModalProps } from "@/types/modal"
 import type { Product } from "@/types/product"
 import ProductDetailsTable from "../table/product-details-table"
@@ -16,18 +16,21 @@ const ProductDetailsModal = ({
   onOpenChange,
   product
 }:Props) => {
-  if (!open) return null
 
   const handleLihatGambar = ()=>{
     if(product.image){
       window.open(getProductImgUrl(product.image), "_blank")
     }else{
-      toast.error("Gambar produk tidak tersedia.")
+      toast.error(`Gambar produk "${product.name}" tidak tersedia.`)
     }
   }
+
+  const handleEditBtnClick = ()=>{}
+
+  const handleDeleteBtnClick = ()=>{}
   
   return (
-    <Dialog open onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogPortal>
         <DialogContent className="lg:max-w-3xl">
 
@@ -36,13 +39,21 @@ const ProductDetailsModal = ({
             <DialogDescription>Lihat semua informasi produk keramik. Seluruh data produk tertera pada tabel dibawah ini.</DialogDescription>
           </DialogHeader>
           
-          <section>
-            <Button variant="outline" onClick={handleLihatGambar}>Lihat Gambar</Button>
-          </section>
+          <div>
+            <section>
+              <Button variant="outline" onClick={handleLihatGambar}>Lihat Gambar</Button>
+            </section>
 
-          <section>
-            <ProductDetailsTable product={product}/>
-          </section>
+            <section>
+              <ProductDetailsTable product={product}/>
+            </section>
+          </div>
+
+          <DialogFooter>
+            <Button variant="destructive" onClick={handleDeleteBtnClick}>Delete</Button>
+            <Button onClick={handleEditBtnClick}>Edit</Button>
+          </DialogFooter>
+
         </DialogContent>
       </DialogPortal>
     </Dialog>
