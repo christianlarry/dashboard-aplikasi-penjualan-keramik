@@ -37,7 +37,7 @@ export function LoginForm({
     resolver: zodResolver(loginSchema),
   })
 
-  const { login } = useAuth() // Assuming useAuth is a custom hook that provides the login function
+  const { login,isLoading } = useAuth() // Assuming useAuth is a custom hook that provides the login function
 
   // Handle form submission
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
@@ -162,7 +162,7 @@ export function LoginForm({
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full" disabled={isLoading}>
                   Login
                 </Button>
               </div>

@@ -34,7 +34,7 @@ const AddProductModal = ({
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button onClick={handleSaveBtnClick}>Simpan Produk</Button>
+            <Button type="button" onClick={handleSaveBtnClick}>Simpan Produk</Button>
           </DialogFooter>
 
         </DialogContent>

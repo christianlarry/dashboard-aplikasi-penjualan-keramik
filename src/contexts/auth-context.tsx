@@ -62,28 +62,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const login = useCallback(async (credentials: LoginCredentials) => {
-    setIsLoading(true)
-    // API hanya mengembalikan token
-    const { data: { data: { token } } } = await api.post<{ data: { token: string } }>('/user/login', credentials)
+    try {
+      setIsLoading(true)
+      // API hanya mengembalikan token
+      const { data: { data: { token } } } = await api.post<{ data: { token: string } }>('/user/login', credentials)
 
-    // Get user data from JWT payload
+      // Get user data from JWT payload
 
-    const userData = getUserFromToken(token)
-    if (!userData) {
-      throw new Error('Invalid token received from server')
+      const userData = getUserFromToken(token)
+      if (!userData) {
+        throw new Error('Invalid token received from server')
+      }
+
+      // Save token to localStorage
+      localStorage.setItem('token', token)
+
+      // Update state with token and decoded user data
+      setToken(token)
+      setUser(userData)
+
+      return { user: userData, token }
+    } finally{
+      setIsLoading(false)
     }
-
-    // Save token to localStorage
-    localStorage.setItem('token', token)
-
-    // Update state with token and decoded user data
-    setToken(token)
-    setUser(userData)
-
-    // Set loading to false after login
-    setIsLoading(false)
-
-    return { user: userData, token }
+    
   }, [])
 
   const logout = useCallback(() => {

@@ -112,7 +112,13 @@ const AddProductForm = forwardRef<HTMLFormElement>((_props,ref) => {
                   <FormItem className="flex-1">
                     <FormLabel>Lebar (cm)</FormLabel>
                     <FormControl>
-                      <Input type="number" min={1} {...field} />
+                      <Input 
+                        type="number" 
+                        min={1} 
+                        {...field} 
+                        value={field.value}
+                        onChange={e => field.onChange(e.target.value === "" ? "" : Number(e.target.value))}
+                        />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -210,7 +216,13 @@ const AddProductForm = forwardRef<HTMLFormElement>((_props,ref) => {
                 <FormItem>
                   <FormLabel>Harga (Rp)</FormLabel>
                   <FormControl>
-                    <Input type="number" min={0} {...field} />
+                    <Input 
+                      type="number" 
+                      min={0} 
+                      {...field} 
+                      value={field.value}
+                      onChange={e => field.onChange(e.target.value === "" ? "" : Number(e.target.value))}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
