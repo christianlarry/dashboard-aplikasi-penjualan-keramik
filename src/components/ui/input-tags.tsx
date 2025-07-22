@@ -31,7 +31,7 @@ export const InputTags = forwardRef<HTMLInputElement, InputTagsProps>(
               if (e.key === "Enter") {
                 e.preventDefault();
                 addPendingDataPoint();
-              } else if (e.key === "," || e.key === " ") {
+              } else if (e.key === ",") {
                 e.preventDefault();
                 addPendingDataPoint();
               }

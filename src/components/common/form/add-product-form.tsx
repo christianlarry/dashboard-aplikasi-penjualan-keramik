@@ -1,13 +1,18 @@
 import { postProductValidation, type PostProduct } from "@/validations/productsSchema"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Textarea } from "@/components/ui/textarea"
 import { forwardRef } from "react"
+import { InputTags } from "@/components/ui/input-tags"
 
-const AddProductForm = forwardRef<HTMLFormElement>((_props,ref) => {
+interface Props{
+  onSuccess?: () => void
+}
+
+const AddProductForm = forwardRef<HTMLFormElement,Props>(({onSuccess},ref) => {
 
   const form = useForm<PostProduct>({
     defaultValues: {
@@ -35,6 +40,8 @@ const AddProductForm = forwardRef<HTMLFormElement>((_props,ref) => {
 
   const onSubmit = (data: PostProduct) => {
     console.log(data)
+
+    onSuccess?.()
   }
 
   return (
@@ -78,11 +85,14 @@ const AddProductForm = forwardRef<HTMLFormElement>((_props,ref) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Aplikasi</FormLabel>
+                  <FormDescription>
+                    Multiple Option, pisah dengan koma
+                  </FormDescription>
                   <FormControl>
-                    <Input
-                      placeholder="Pisahkan dengan koma, contoh: Lantai, Dinding"
-                      value={field.value.join(", ")}
-                      onChange={e => field.onChange(e.target.value.split(",").map(v => v.trim()).filter(Boolean))}
+                    <InputTags
+                      value={field.value ?? []}
+                      onChange={field.onChange}
+                      placeholder="Contoh: Lantai, Dinding"
                     />
                   </FormControl>
                   <FormMessage />
@@ -97,7 +107,7 @@ const AddProductForm = forwardRef<HTMLFormElement>((_props,ref) => {
                 <FormItem>
                   <FormLabel>Desain</FormLabel>
                   <FormControl>
-                    <Input placeholder="Desain produk" {...field} />
+                    <Input placeholder="Contoh: Plain, Stone" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -151,11 +161,14 @@ const AddProductForm = forwardRef<HTMLFormElement>((_props,ref) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Warna</FormLabel>
+                  <FormDescription>
+                    Multiple Option, pisah dengan koma
+                  </FormDescription>
                   <FormControl>
-                    <Input
-                      placeholder="Pisahkan dengan koma, contoh: Putih, Abu-abu"
-                      value={field.value.join(", ")}
-                      onChange={e => field.onChange(e.target.value.split(",").map(v => v.trim()).filter(Boolean))}
+                    <InputTags
+                      value={field.value ?? []}
+                      onChange={field.onChange}
+                      placeholder="Contoh: Hitam, Putih"
                     />
                   </FormControl>
                   <FormMessage />
@@ -305,11 +318,14 @@ const AddProductForm = forwardRef<HTMLFormElement>((_props,ref) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Rekomendasi (Optional)</FormLabel>
+                  <FormDescription>
+                    Multiple Option, pisah dengan koma
+                  </FormDescription>
                   <FormControl>
-                    <Input
-                      placeholder="Pisahkan dengan koma, contoh: Produk A, Produk B"
-                      value={(field.value ?? []).join(", ")}
-                      onChange={e => field.onChange(e.target.value.split(",").map(v => v.trim()).filter(Boolean))}
+                    <InputTags
+                      value={field.value ?? []}
+                      onChange={field.onChange}
+                      placeholder="Tambah rekomendasi produk"
                     />
                   </FormControl>
                   <FormMessage />
