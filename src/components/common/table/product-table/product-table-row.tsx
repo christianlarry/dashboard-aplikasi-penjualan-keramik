@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, getProductImgUrl } from "@/lib/utils";
 import type { Product } from "@/types/product";
 import { TbDots, TbTrash } from "react-icons/tb";
 import { useState } from "react";
@@ -29,7 +29,7 @@ const ProductTableRow = ({ product }: Props) => {
         <TableCell>
           <Avatar className="size-30 aspect-square rounded-lg">
             {product.image ?
-              <AvatarImage src={product.image} alt={product.name} /> :
+              <AvatarImage src={getProductImgUrl(product.image)} alt={product.name} className="object-cover object-center" /> :
               <AvatarFallback className="rounded-lg">{product.name[0].toUpperCase()}</AvatarFallback>
             }
           </Avatar>

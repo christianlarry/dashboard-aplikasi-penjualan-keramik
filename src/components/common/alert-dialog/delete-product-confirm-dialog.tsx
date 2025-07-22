@@ -1,5 +1,7 @@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
+import { useProductMutation } from "@/hooks/use-product-mutation"
 import type { Product } from "@/types/product"
+import { toast } from "sonner"
 
 interface Props{
   onOpenChange?: (open: boolean) => void
@@ -13,8 +15,19 @@ const DeleteProductConfirmDialog = ({
   open = false
 }:Props) => {
 
-  const handleDeleteProduct = ()=>{
-    console.log("Delete product:", product._id);
+  const {deleteProduct} = useProductMutation()
+
+  const handleDeleteProduct = async ()=>{
+    try {
+      const result = await deleteProduct.mutateAsync(product._id ?? "")
+
+      if(result.status === 200){
+        toast.success(`Product ${product.name} berhasil dihapus!`)
+      }
+    } catch (err) {
+      // handle error here
+      toast.error(`Terjadi kesalahan saat menghapus produk: ${err instanceof Error ? err.message : "Unknown error"}`)
+    }
   }
 
   return (

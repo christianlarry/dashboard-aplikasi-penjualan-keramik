@@ -7,12 +7,17 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Textarea } from "@/components/ui/textarea"
 import { forwardRef } from "react"
 import { InputTags } from "@/components/ui/input-tags"
+import type { Product } from "@/types/product"
+import { useProductMutation } from "@/hooks/use-product-mutation"
+import { toast } from "sonner"
 
 interface Props{
-  onSuccess?: () => void
+  onSuccess?: (newProduct:Product) => void
 }
 
 const AddProductForm = forwardRef<HTMLFormElement,Props>(({onSuccess},ref) => {
+
+  const {addProduct} = useProductMutation()
 
   const form = useForm<PostProduct>({
     defaultValues: {
@@ -38,10 +43,21 @@ const AddProductForm = forwardRef<HTMLFormElement,Props>(({onSuccess},ref) => {
 
   })
 
-  const onSubmit = (data: PostProduct) => {
-    console.log(data)
+  const onSubmit = async (data: PostProduct) => {
+    try {
+      const result = await addProduct.mutateAsync(data)
 
-    onSuccess?.()
+      if(result.status === 201){
+        const insertedProduct = result.data.data as Product
+
+        toast.success("Produk berhasil ditambahkan!")
+        onSuccess?.(insertedProduct)
+      }
+
+    } catch (err) {
+      console.error(err)
+      // Handle Post Error Here
+    }
   }
 
   return (
@@ -249,7 +265,14 @@ const AddProductForm = forwardRef<HTMLFormElement,Props>(({onSuccess},ref) => {
                 <FormItem>
                   <FormLabel>Diskon (%)</FormLabel>
                   <FormControl>
-                    <Input type="number" min={0} max={100} {...field} />
+                    <Input 
+                      type="number" 
+                      min={0} 
+                      max={100} 
+                      {...field}
+                      value={field.value}
+                      onChange={e => field.onChange(e.target.value === "" ? "" : Number(e.target.value))} 
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -5,12 +5,12 @@ import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } 
 import { Spinner } from "@/components/ui/spinner"
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
-import useProduct from "@/hooks/use-product"
 import { Grid2X2, PlusCircle } from "lucide-react"
 import { useEffect, useState } from "react"
 import { TbInfoCircle } from "react-icons/tb"
 import { useLocation } from "react-router"
 import AddProductModal from "@/components/common/modal/add-product-modal"
+import { useProductQuery } from "@/hooks/use-product-query"
 
 
 const AllProductsPage = () => {
@@ -23,13 +23,11 @@ const AllProductsPage = () => {
   // State for add product dialog
   const [isAddProductModalShow, setIsAddProductModalShow] = useState<boolean>(false)
 
-  const { getProducts } = useProduct({
+  const { data, isLoading } = useProductQuery({
     page,
     size,
     search:searchKeyword
   })
-
-  const { data, isLoading } = getProducts
 
   // Location
   const location = useLocation()
