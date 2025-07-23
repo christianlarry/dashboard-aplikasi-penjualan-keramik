@@ -5,6 +5,8 @@ import ProductDetailsTable from "../table/product-details-table"
 import { Button } from "@/components/ui/button"
 import { getProductImgUrl } from "@/lib/utils"
 import { toast } from "sonner"
+import DeleteProductConfirmDialog from "../alert-dialog/delete-product-confirm-dialog"
+import { useState } from "react"
 
 
 interface Props extends CustomModalProps{
@@ -17,6 +19,9 @@ const ProductDetailsModal = ({
   product
 }:Props) => {
 
+  const [isDeleteDialogOpen,setIsDeleteDialogOpen] = useState<boolean>(false)
+
+
   const handleLihatGambar = ()=>{
     if(product.image){
       window.open(getProductImgUrl(product.image), "_blank")
@@ -27,12 +32,14 @@ const ProductDetailsModal = ({
 
   const handleEditBtnClick = ()=>{}
 
-  const handleDeleteBtnClick = ()=>{}
+  const handleDeleteBtnClick = ()=>{
+    setIsDeleteDialogOpen(true)
+  }
   
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogPortal>
-        <DialogContent className="lg:max-w-3xl">
+        <DialogContent className="lg:max-w-3xl" onInteractOutside={e => e.preventDefault()}>
 
           <DialogHeader>
             <DialogTitle>{product.name}</DialogTitle>
@@ -53,6 +60,12 @@ const ProductDetailsModal = ({
             <Button variant="destructive" onClick={handleDeleteBtnClick}>Delete</Button>
             <Button onClick={handleEditBtnClick}>Edit</Button>
           </DialogFooter>
+
+          <DeleteProductConfirmDialog
+            product={product}
+            open={isDeleteDialogOpen}
+            onOpenChange={setIsDeleteDialogOpen}
+          />
 
         </DialogContent>
       </DialogPortal>

@@ -14,6 +14,15 @@ export const useProductMutation = () => {
     }
   })
 
+  const updateProductFlags = useMutation({
+    mutationFn: (variables: { productId: string; body:{isBestSeller?: boolean; isNewArrival?: boolean;}}) => {
+      return api.patch(`/product/${variables.productId}/flags`, variables.body) 
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['products'] })
+    }
+  })
+
   const deleteProduct = useMutation({
     mutationFn: (productId: string) => {
       return api.delete(`/product/${productId}`)
@@ -22,6 +31,7 @@ export const useProductMutation = () => {
       queryClient.invalidateQueries({ queryKey: ['products'] })
     }
   })
+  
 
   const uploadProductImage = useMutation({
     mutationFn: (body:{productId:string,image:File}) => {
@@ -42,6 +52,7 @@ export const useProductMutation = () => {
 
   return {
     addProduct,
+    updateProductFlags,
     deleteProduct,
     uploadProductImage
   }
