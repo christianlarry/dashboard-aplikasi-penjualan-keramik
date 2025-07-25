@@ -1,5 +1,5 @@
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogPortal, DialogTitle } from "@/components/ui/dialog"
-import AddProductForm from "../form/add-product-form"
+import AddProductForm from "../form/product-form/add-product-form"
 import type { CustomModalProps } from "@/types/modal"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"

@@ -15,7 +15,7 @@ export const useProductMutation = () => {
   })
 
   const updateProductFlags = useMutation({
-    mutationFn: (variables: { productId: string; body:{isBestSeller?: boolean; isNewArrival?: boolean;}}) => {
+    mutationFn: (variables: { productId: string; body:{isBestSeller?: boolean; isNewArrivals?: boolean;}}) => {
       return api.patch(`/product/${variables.productId}/flags`, variables.body) 
     },
     onSuccess: () => {

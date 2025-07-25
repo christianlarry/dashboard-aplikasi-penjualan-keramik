@@ -2,63 +2,26 @@ import { postProductValidation, type PostProduct } from "@/validations/productsS
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Textarea } from "@/components/ui/textarea"
 import { forwardRef } from "react"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { InputTags } from "@/components/ui/input-tags"
-import type { Product } from "@/types/product"
-import { useProductMutation } from "@/hooks/use-product-mutation"
-import { toast } from "sonner"
+import { Checkbox } from "@/components/ui/checkbox"
 
 interface Props{
-  onSuccess?: (newProduct:Product) => void
+  defaultValues: PostProduct,
+  onSubmit: (data: PostProduct) => void
 }
 
-const AddProductForm = forwardRef<HTMLFormElement,Props>(({onSuccess},ref) => {
-
-  const {addProduct} = useProductMutation()
+const ProductForm = forwardRef<HTMLFormElement,Props>(({
+  defaultValues,
+  onSubmit
+},ref) => {
 
   const form = useForm<PostProduct>({
-    defaultValues: {
-      name: "",
-      description: "",
-      application: [],
-      design: "",
-      sizeWidth: 0,
-      sizeHeight: 0,
-      color: [],
-      finishing: "",
-      texture: "",
-      brand: "",
-      price: 0,
-      discount: undefined,
-      isSlipResistant: false,
-      isWaterResistant: false,
-      isBestSeller: false,
-      isNewArrivals: false,
-      recommended: [],
-    },
+    defaultValues,
     resolver: zodResolver(postProductValidation),
-
   })
-
-  const onSubmit = async (data: PostProduct) => {
-    try {
-      const result = await addProduct.mutateAsync(data)
-
-      if(result.status === 201){
-        const insertedProduct = result.data.data as Product
-
-        toast.success("Produk berhasil ditambahkan!")
-        onSuccess?.(insertedProduct)
-      }
-
-    } catch (err) {
-      console.error(err)
-      // Handle Post Error Here
-    }
-  }
 
   return (
     <Form {...form}>
@@ -138,13 +101,13 @@ const AddProductForm = forwardRef<HTMLFormElement,Props>(({onSuccess},ref) => {
                   <FormItem className="flex-1">
                     <FormLabel>Lebar (cm)</FormLabel>
                     <FormControl>
-                      <Input 
-                        type="number" 
-                        min={1} 
-                        {...field} 
+                      <Input
+                        type="number"
+                        min={1}
+                        {...field}
                         value={field.value}
                         onChange={e => field.onChange(e.target.value === "" ? "" : Number(e.target.value))}
-                        />
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -157,9 +120,9 @@ const AddProductForm = forwardRef<HTMLFormElement,Props>(({onSuccess},ref) => {
                   <FormItem className="flex-1">
                     <FormLabel>Tinggi (cm)</FormLabel>
                     <FormControl>
-                      <Input 
-                        type="number" 
-                        min={1} 
+                      <Input
+                        type="number"
+                        min={1}
                         {...field}
                         value={field.value}
                         onChange={e => field.onChange(e.target.value === "" ? "" : Number(e.target.value))}
@@ -205,7 +168,7 @@ const AddProductForm = forwardRef<HTMLFormElement,Props>(({onSuccess},ref) => {
                 </FormItem>
               )}
             />
-            
+
           </div>
 
           <div className="flex flex-col gap-4">
@@ -245,10 +208,10 @@ const AddProductForm = forwardRef<HTMLFormElement,Props>(({onSuccess},ref) => {
                 <FormItem>
                   <FormLabel>Harga (Rp)</FormLabel>
                   <FormControl>
-                    <Input 
-                      type="number" 
-                      min={0} 
-                      {...field} 
+                    <Input
+                      type="number"
+                      min={0}
+                      {...field}
                       value={field.value}
                       onChange={e => field.onChange(e.target.value === "" ? "" : Number(e.target.value))}
                     />
@@ -265,13 +228,13 @@ const AddProductForm = forwardRef<HTMLFormElement,Props>(({onSuccess},ref) => {
                 <FormItem>
                   <FormLabel>Diskon (%)</FormLabel>
                   <FormControl>
-                    <Input 
-                      type="number" 
-                      min={0} 
-                      max={100} 
+                    <Input
+                      type="number"
+                      min={0}
+                      max={100}
                       {...field}
                       value={field.value}
-                      onChange={e => field.onChange(e.target.value === "" ? "" : Number(e.target.value))} 
+                      onChange={e => field.onChange(e.target.value === "" ? "" : Number(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />
@@ -356,12 +319,12 @@ const AddProductForm = forwardRef<HTMLFormElement,Props>(({onSuccess},ref) => {
               )}
             />
           </div>
-          
-          
+
+
         </div>
       </form>
     </Form>
   )
 })
 
-export default AddProductForm
+export default ProductForm
