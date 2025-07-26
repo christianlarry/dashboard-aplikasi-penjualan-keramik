@@ -53,3 +53,5 @@ export interface PostProductRequestBody{
   isNewArrivals?: boolean;
   recommended?: string[];
 }
+
+export type PutProductRequestBody = PostProductRequestBody

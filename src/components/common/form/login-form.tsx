@@ -75,14 +75,14 @@ export function LoginForm({
           if (errorMap.username) {
             form.setError("username", {
               type: "manual",
-              message: errorMap.username.join(", "), // Assuming the first error is the most relevant
+              message: errorMap.username.join(", ") // Assuming the first error is the most relevant
             });
           }
 
           if(errorMap.password) {
             form.setError("password", {
               type: "manual",
-              message: errorMap.password.join(", "), // Assuming the first error is the most relevant
+              message: errorMap.password.join(", ") // Assuming the first error is the most relevant
             });
           }
           

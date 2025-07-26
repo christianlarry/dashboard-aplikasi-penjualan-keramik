@@ -5,10 +5,10 @@ import type { CustomModalProps } from "@/types/modal"
 import type { Product } from "@/types/product"
 import ImageUpload from "../upload/ImageUpload"
 import { useEffect, useRef, useState } from "react"
-import AddProductForm from "../form/product-form/add-product-form"
 import { useProductMutation } from "@/hooks/use-product-mutation"
 import { toast } from "sonner"
 import EditProductForm from "../form/product-form/edit-product-form"
+import { getProductImgUrl } from "@/lib/utils"
 
 interface Props extends CustomModalProps {
   product:Product
@@ -62,6 +62,8 @@ const EditProductModal = ({
       } catch (err) {
         toast.error(`Terjadi kesalahan saat mengupload gambar produk. ${err instanceof Error ? err.message : "Unknown error"}`)
       }
+    }else{
+      toast.error("Belum ada gambar yang di upload!")
     }
   }
 
@@ -96,6 +98,7 @@ const EditProductModal = ({
                 {/* Komponen upload gambar di sini */}
                 <ImageUpload
                   onChange={(file) => setImageFile(file)}
+                  defaultPreviewImg={product.image && getProductImgUrl(product.image)}
                 />
               </section>
             </TabsContent>

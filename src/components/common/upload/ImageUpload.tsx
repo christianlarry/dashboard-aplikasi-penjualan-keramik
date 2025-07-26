@@ -4,9 +4,10 @@ import { useRef, useState } from "react"
 
 interface ImageUploadProps {
   onChange?: (file: File | null) => void
+  defaultPreviewImg?:string
 }
 
-const ImageUpload = ({ onChange }: ImageUploadProps) => {
+const ImageUpload = ({ onChange,defaultPreviewImg }: ImageUploadProps) => {
   const [preview, setPreview] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -21,6 +22,8 @@ const ImageUpload = ({ onChange }: ImageUploadProps) => {
       setPreview(null)
     }
   }
+
+  const previewSrc = preview || defaultPreviewImg || null
 
   return (
     <div className="flex flex-col gap-4">
@@ -39,8 +42,8 @@ const ImageUpload = ({ onChange }: ImageUploadProps) => {
         className="bg-muted rounded-md flex items-center justify-center overflow-hidden cursor-pointer aspect-square"
         onClick={() => inputRef.current?.click()}
       >
-        {preview ? (
-          <img src={preview} alt="Preview" className="object-cover object-center w-full h-full" />
+        {previewSrc ? (
+          <img src={previewSrc} alt="Preview" className="object-cover object-center w-full h-full" />
         ) : (
           <span className="text-muted-foreground text-sm font-semibold">Pilih gambar</span>
         )}

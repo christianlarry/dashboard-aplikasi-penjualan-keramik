@@ -1,5 +1,5 @@
 import api from "@/lib/api"
-import type { PostProductRequestBody } from "@/types/product"
+import type { PostProductRequestBody, PutProductRequestBody } from "@/types/product"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 export const useProductMutation = () => {
@@ -8,6 +8,15 @@ export const useProductMutation = () => {
   const addProduct = useMutation({
     mutationFn: (newProduct: PostProductRequestBody) => {
       return api.post('/product', newProduct)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['products'] })
+    }
+  })
+
+  const updateProduct = useMutation({
+    mutationFn: (variables: {productId:string, newProduct: PutProductRequestBody}) => {
+      return api.put(`/product/${variables.productId}`, variables.newProduct)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] })
@@ -52,6 +61,7 @@ export const useProductMutation = () => {
 
   return {
     addProduct,
+    updateProduct,
     updateProductFlags,
     deleteProduct,
     uploadProductImage
