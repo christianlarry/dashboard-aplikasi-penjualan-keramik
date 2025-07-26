@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button"
 import { getProductImgUrl } from "@/lib/utils"
 import { toast } from "sonner"
 import DeleteProductConfirmDialog from "../alert-dialog/delete-product-confirm-dialog"
-import { useState } from "react"
+import { useCallback, useState } from "react"
+import EditProductModal from "./edit-product-modal"
 
 
 interface Props extends CustomModalProps{
@@ -20,21 +21,24 @@ const ProductDetailsModal = ({
 }:Props) => {
 
   const [isDeleteDialogOpen,setIsDeleteDialogOpen] = useState<boolean>(false)
+  const [isEditProductModalOpen,setIsEditProductModalOpen] = useState<boolean>(false)
 
 
-  const handleLihatGambar = ()=>{
+  const handleLihatGambar = useCallback(()=>{
     if(product.image){
       window.open(getProductImgUrl(product.image), "_blank")
     }else{
       toast.error(`Gambar produk "${product.name}" tidak tersedia.`)
     }
-  }
+  },[product])
 
-  const handleEditBtnClick = ()=>{}
+  const handleEditBtnClick = useCallback(()=>{
+    setIsEditProductModalOpen(true)
+  },[])
 
-  const handleDeleteBtnClick = ()=>{
+  const handleDeleteBtnClick = useCallback(()=>{
     setIsDeleteDialogOpen(true)
-  }
+  },[])
   
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -65,6 +69,12 @@ const ProductDetailsModal = ({
             product={product}
             open={isDeleteDialogOpen}
             onOpenChange={setIsDeleteDialogOpen}
+          />
+
+          <EditProductModal
+            product={product}
+            open={isEditProductModalOpen} // This modal is not used here, but you can pass the state if needed
+            onOpenChange={setIsEditProductModalOpen} // Placeholder function, replace with actual logic if needed
           />
 
         </DialogContent>
