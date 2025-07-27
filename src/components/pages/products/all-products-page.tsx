@@ -48,7 +48,7 @@ const AllProductsPage = () => {
           <CardHeader>
             <CardDescription className="flex items-center gap-2 text-sm text-primary font-medium">
               <Grid2X2 size={16} />
-              Total Produk
+              Total Produk di DB
             </CardDescription>
             <CardTitle className="font-bold text-3xl">
               {data ? data.page.total : 0} item
