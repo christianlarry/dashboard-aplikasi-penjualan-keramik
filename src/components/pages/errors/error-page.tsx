@@ -15,11 +15,9 @@ const ErrorPage = () => {
   }, [])
 
   let message = "An unexpected error occurred"
-  let status: number | undefined
   let statusText: string | undefined
 
   if (isRouteErrorResponse(error)) {
-    status = error.status
     statusText = error.statusText
     message = error.data?.message || statusText || message
   } else if (error instanceof Error) {
