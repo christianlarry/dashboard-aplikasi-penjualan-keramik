@@ -115,7 +115,7 @@ export function LoginForm({
       <Card>
         <CardHeader className="text-center flex flex-col items-center gap-4">
           <Link to="#" className="flex items-center justify-center gap-2 self-center font-medium">
-            <div className="w-32">
+            <div className="w-full">
               <Logo />
             </div>
           </Link>

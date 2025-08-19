@@ -35,6 +35,9 @@ export const postProductValidation = z.object({
   price: z
     .number()
     .nonnegative("Harga produk tidak boleh negatif"),
+  tilesPerBox: z
+    .number()
+    .nonnegative("Jumlah ubin dalam box tidak boleh negatif"),
   discount: z
     .number()
     .nonnegative("Diskon tidak boleh negatif")

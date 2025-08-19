@@ -220,6 +220,26 @@ const ProductForm = forwardRef<HTMLFormElement,Props>(({
                 </FormItem>
               )}
             />
+            {/* TilesPerBox */}
+            <FormField
+              control={form.control}
+              name="tilesPerBox"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Jumlah ubin dalam box</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min={0}
+                      {...field}
+                      value={field.value}
+                      onChange={e => field.onChange(e.target.value === "" ? "" : Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             {/* Discount */}
             <FormField
               control={form.control}

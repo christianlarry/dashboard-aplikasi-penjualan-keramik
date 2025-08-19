@@ -26,6 +26,7 @@ const EditProductForm = forwardRef<HTMLFormElement,Props>(({
     texture: currentProduct.specification.texture,
     brand: currentProduct.brand,
     price: currentProduct.price,
+    tilesPerBox: currentProduct.tilesPerBox,
     discount: currentProduct.discount,
     isSlipResistant: currentProduct.specification.isSlipResistant,
     isWaterResistant: currentProduct.specification.isWaterResistant,

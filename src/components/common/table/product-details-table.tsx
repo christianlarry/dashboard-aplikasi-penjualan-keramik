@@ -181,6 +181,10 @@ const ProductDetailsTable = ({
             <TableCell>{product.recommended ? product.recommended.join(", ") : "-"}</TableCell>
           </TableRow>
           <TableRow>
+            <TableHead>Isi per box</TableHead>
+            <TableCell>{product.tilesPerBox} pcs</TableCell>
+          </TableRow>
+          <TableRow>
             <TableHead>Harga</TableHead>
             <TableCell>Rp{formatCurrency(product.price)}</TableCell>
           </TableRow>

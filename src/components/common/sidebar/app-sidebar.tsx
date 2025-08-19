@@ -17,15 +17,6 @@ import NavHome from "@/components/common/sidebar/nav-home"
 
 import { HOME_NAV_ITEMS, MAIN_NAV_ITEMS } from "@/constants/navItems"
 
-// Data Sementara
-const data = {
-  user: {
-    name: "christianlarry",
-    role: "admin",
-    avatar: "/avatars/shadcn.jpg",
-  }
-}
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar variant="inset" {...props}>
@@ -35,7 +26,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link to="/">
-                <div className="flex aspect-square size-24 items-center justify-center rounded-lg">
+                <div className="flex aspect-square items-center justify-center rounded-lg">
                   <Logo/>
                 </div>
               </Link>

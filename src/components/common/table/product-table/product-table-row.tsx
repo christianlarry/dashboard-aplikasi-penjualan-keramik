@@ -100,6 +100,9 @@ const ProductTableRow = ({ product }: Props) => {
               </div>
             )}
             <span className="font-medium">Rp{formatCurrency(product.finalPrice)}</span>
+            {product.tilesPerBox &&
+              <span>(isi {product.tilesPerBox} pcs / box)</span>
+            }
           </div>
         </TableCell>
         <TableCell>{new Date(product.createdAt).toUTCString()}</TableCell>

@@ -24,6 +24,7 @@ const AddProductForm = forwardRef<HTMLFormElement,Props>(({onSuccess},ref) => {
     texture: "",
     brand: "",
     price: 0,
+    tilesPerBox: 0,
     discount: undefined,
     isSlipResistant: false,
     isWaterResistant: false,

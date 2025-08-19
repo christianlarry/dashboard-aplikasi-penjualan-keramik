@@ -20,6 +20,7 @@ export interface Product {
   brand: string,
   price: number,
   finalPrice: number,
+  tilesPerBox: number,
   discount?:number,
   isBestSeller?:boolean,
   isNewArrivals?:boolean,
@@ -46,6 +47,7 @@ export interface PostProductRequestBody{
   texture: string;
   brand: string;
   price: number;
+  tilesPerBox: number;
   discount?: number;
   isSlipResistant: boolean;
   isWaterResistant: boolean;
