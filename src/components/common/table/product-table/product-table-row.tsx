@@ -25,7 +25,7 @@ const ProductTableRow = ({ product }: Props) => {
   return (
     <>
     
-      <TableRow>
+      <TableRow onClick={()=>setIsDetailsMenuOpen(true)}>
         <TableCell>
           <Avatar className="size-30 aspect-square rounded-lg">
             {product.image ?
@@ -106,7 +106,7 @@ const ProductTableRow = ({ product }: Props) => {
           </div>
         </TableCell>
         <TableCell>{new Date(product.createdAt).toUTCString()}</TableCell>
-        <TableCell className="text-right">
+        <TableCell className="text-right" onClick={(e)=>e.stopPropagation()}>
           <div className="flex justify-end">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

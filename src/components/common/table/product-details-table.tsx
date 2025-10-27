@@ -190,7 +190,10 @@ const ProductDetailsTable = ({
           </TableRow>
           <TableRow>
             <TableHead>Diskon</TableHead>
-            <TableCell>{(product.discount && product.discount+"%") || "-"}</TableCell>
+            <TableCell className="flex justify-between">
+              <span>{(product.discount && product.discount+"%") || "-"}</span>
+              <Button className="size-auto p-1 px-2">Atur Diskon</Button>
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableHead>Harga Final</TableHead>
