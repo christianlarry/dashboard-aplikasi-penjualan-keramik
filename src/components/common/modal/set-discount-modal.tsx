@@ -67,7 +67,15 @@ const SetDiscountModal = ({ product, open, onOpenChange }: SetDiscountModalProps
                       min={0}
                       max={100}
                       {...field}
-                      onChange={e => field.onChange(Number(e.target.value))}
+                      value={field.value === null ? "" : field.value}
+                      onChange={e => {
+                        const value = e.target.value;
+                        if (value === "") {
+                          field.onChange(null); // Kirim null jika input kosong
+                        } else {
+                          field.onChange(Number(value)); // Konversi ke angka jika ada nilai
+                        }
+                      }}
                     />
                   </FormControl>
                   <FormMessage />

@@ -190,11 +190,11 @@ const ProductDetailsTable = ({
             <TableHead>Harga</TableHead>
             <TableCell>Rp{formatCurrency(product.price)}</TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow onClick={()=>setIsSetDiscountModalOpen(true)}>
             <TableHead>Diskon</TableHead>
             <TableCell className="flex justify-between">
               <span>{(product.discount && product.discount+"%") || "-"}</span>
-              <Button className="size-auto p-1 px-2" onClick={()=>setIsSetDiscountModalOpen(true)}>Atur Diskon</Button>
+              <Button className="size-auto p-1 px-2">Atur Diskon</Button>
             </TableCell>
           </TableRow>
           <TableRow>

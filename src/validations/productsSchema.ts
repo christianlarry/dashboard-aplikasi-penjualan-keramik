@@ -55,7 +55,7 @@ export const putProductValidation = postProductValidation
 
 export const discountValidation = z.object({
   discount: z
-    .number()
+    .number({ invalid_type_error: "Diskon tidak boleh kosong dan harus berupa angka" })
     .min(0, "Diskon tidak boleh negatif")
     .max(100, "Diskon tidak boleh lebih dari 100%")
 })
