@@ -7,6 +7,7 @@ import ConfirmationDialog from "../alert-dialog/confirmation-dialog"
 import { useState } from "react"
 import { useProductMutation } from "@/hooks/use-product-mutation"
 import { toast } from "sonner"
+import SetDiscountModal from "../modal/set-discount-modal"
 
 interface Props{
   product: Product
@@ -24,6 +25,7 @@ const ProductDetailsTable = ({
 }:Props) => {
 
   const [confirmAction,setConfirmAction] = useState<ConfirmActionType | null>(null)
+  const [isSetDiscountModalOpen,setIsSetDiscountModalOpen] = useState<boolean>(false)
 
   const {updateProductFlags} = useProductMutation()
 
@@ -192,7 +194,7 @@ const ProductDetailsTable = ({
             <TableHead>Diskon</TableHead>
             <TableCell className="flex justify-between">
               <span>{(product.discount && product.discount+"%") || "-"}</span>
-              <Button className="size-auto p-1 px-2">Atur Diskon</Button>
+              <Button className="size-auto p-1 px-2" onClick={()=>setIsSetDiscountModalOpen(true)}>Atur Diskon</Button>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -223,6 +225,12 @@ const ProductDetailsTable = ({
         onConfirm={handleConfirm}
         title={confirmAction?.includes("add") ? "Konfirmasi Tambah" : "Konfirmasi Hapus"}
         description="Apakah Anda yakin ingin melanjutkan tindakan ini?"
+      />
+
+      <SetDiscountModal
+        open={isSetDiscountModalOpen}
+        onOpenChange={(open)=>!open && setIsSetDiscountModalOpen(false)}
+        product={product}
       />
     </>
   )

@@ -53,5 +53,13 @@ export const postProductValidation = z.object({
 
 export const putProductValidation = postProductValidation
 
+export const discountValidation = z.object({
+  discount: z
+    .number()
+    .min(0, "Diskon tidak boleh negatif")
+    .max(100, "Diskon tidak boleh lebih dari 100%")
+})
+
 export type PostProduct = z.infer<typeof postProductValidation>
 export type PutProduct = z.infer<typeof putProductValidation>
+export type DiscountInput = z.infer<typeof discountValidation>

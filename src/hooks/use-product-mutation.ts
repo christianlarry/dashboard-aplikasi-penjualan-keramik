@@ -32,6 +32,15 @@ export const useProductMutation = () => {
     }
   })
 
+  const updateProductDiscount = useMutation({
+    mutationFn: (variables: { productId: string; body:{ discount: number; }; }) => {
+      return api.patch(`/product/${variables.productId}/discount`, variables.body)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['products'] })
+    }
+  })
+
   const deleteProduct = useMutation({
     mutationFn: (productId: string) => {
       return api.delete(`/product/${productId}`)
@@ -63,6 +72,7 @@ export const useProductMutation = () => {
     addProduct,
     updateProduct,
     updateProductFlags,
+    updateProductDiscount,
     deleteProduct,
     uploadProductImage
   }
